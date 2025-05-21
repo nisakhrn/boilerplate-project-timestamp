@@ -1,6 +1,12 @@
 const express = require('express');
 const app = express();
 
+// Enable CORS for FCC testing
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  next();
+});
+
 app.get('/', (req, res) => {
   res.send(`
     <!DOCTYPE html>
@@ -29,7 +35,7 @@ app.get('/api/:date?', (req, res) => {
 
   if (!dateParam) {
     date = new Date();
-  } else if (!isNaN(dateParam)) {
+  } else if (/^\d+$/.test(dateParam)) {
     date = new Date(parseInt(dateParam));
   } else {
     date = new Date(dateParam);
